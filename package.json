@@ -1,0 +1,21 @@
+{
+  "name": "skycinema",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SkyCinema — Premium Home Theatre Experience Studio",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:client": "npm run dev --workspace=client",
+    "dev:server": "npm run dev --workspace=server",
+    "build": "npm run build --workspace=client",
+    "start": "npm run start --workspace=server",
+    "db:setup": "npm run db:setup --workspace=server"
+  },
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
