@@ -42,30 +42,19 @@ export default function AdminDashboard() {
             <p className="text-cream/30 text-xs mt-1 uppercase tracking-widest">Admin</p>
           </div>
           <nav className="flex-1 p-4 space-y-1">
-            {NAV.map((item) => {
-              const active = item.exact
-                ? location.pathname === item.path
-                : location.pathname.startsWith(item.path) && item.path !== '/admin'
-                  ? true
-                  : item.exact && location.pathname === '/admin';
-              const isActive = item.exact
-                ? location.pathname === '/admin'
-                : location.pathname.startsWith(item.path) && item.path !== '/admin';
-
-              return (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className={`block px-4 py-3 rounded-lg text-sm transition-colors ${
-                    (item.exact ? location.pathname === '/admin' : location.pathname.startsWith(item.path) && item.path !== '/admin')
-                      ? 'bg-gold/10 text-gold'
-                      : 'text-cream/50 hover:text-cream hover:bg-white/5'
-                  }`}
-                >
-                  {item.label}
-                </Link>
-              );
-            })}
+            {NAV.map((item) => (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={`block px-4 py-3 rounded-lg text-sm transition-colors ${
+                  (item.exact ? location.pathname === '/admin' : location.pathname.startsWith(item.path) && item.path !== '/admin')
+                    ? 'bg-gold/10 text-gold'
+                    : 'text-cream/50 hover:text-cream hover:bg-white/5'
+                }`}
+              >
+                {item.label}
+              </Link>
+            ))}
           </nav>
           <div className="p-4 border-t border-white/5">
             <button
@@ -106,7 +95,17 @@ function DashboardHome() {
 
   useEffect(() => {
     getDashboardStats()
-      .then((res) => setStats(res.data.data))
+      .then((res) => {
+        const payload = res.data?.data ?? {};
+        setStats({
+          products: Number(payload.products ?? 0),
+          projects: Number(payload.projects ?? 0),
+          appointments: Number(payload.appointments ?? 0),
+          enquiries: Number(payload.enquiries ?? 0),
+          testimonials: Number(payload.testimonials ?? 0),
+          blogPosts: Number(payload.blogPosts ?? 0),
+        });
+      })
       .catch(() => {});
   }, []);
 

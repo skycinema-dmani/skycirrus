@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import SEO from '@/components/common/SEO';
 import Button from '@/components/ui/Button';
@@ -11,7 +10,6 @@ interface LoginForm {
 }
 
 export default function AdminLogin() {
-  const navigate = useNavigate();
   const [error, setError] = useState('');
   const { register, handleSubmit, formState: { isSubmitting } } = useForm<LoginForm>();
 
@@ -19,15 +17,23 @@ export default function AdminLogin() {
     setError('');
     try {
       const res = await login(data.email, data.password);
-      localStorage.setItem('skycinema_token', res.data.data.token);
-      navigate('/admin');
-    } catch {
-      if (data.email === 'admin@skycirrus.com' && data.password === 'admin123') {
-        localStorage.setItem('skycinema_token', 'demo-token');
-        navigate('/admin');
+      const token = res.data?.data?.token;
+
+      if (!token) {
+        setError('Authentication failed');
         return;
       }
-      setError('Invalid credentials');
+
+      localStorage.setItem('skycinema_token', token);
+      window.location.href = '/admin';
+    } catch (err: unknown) {
+      const message =
+        typeof err === 'object' && err !== null && 'response' in err &&
+        typeof (err as { response?: { data?: { message?: string } } }).response?.data?.message === 'string'
+          ? (err as { response?: { data?: { message?: string } } }).response?.data?.message
+          : 'Invalid credentials';
+
+      setError(message ?? 'Invalid credentials');
     }
   };
 
@@ -37,9 +43,11 @@ export default function AdminLogin() {
       <div className="min-h-screen flex items-center justify-center bg-obsidian px-6">
         <div className="w-full max-w-md">
           <div className="text-center mb-10">
-            <h1 className="font-display text-3xl text-cream">
-              Sky<span className="text-gold">Cinema</span>
-            </h1>
+            <img
+              src="/images/logo.png"
+              alt="SkyCinema logo"
+              className="mx-auto h-32 w-auto object-contain"
+            />
             <p className="text-cream/40 text-sm mt-2 uppercase tracking-widest">Admin Panel</p>
           </div>
 

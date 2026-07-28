@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { BRAND, NAV_LINKS } from '@/lib/constants';
+import { NAV_LINKS } from '@/lib/constants';
 import Button from '@/components/ui/Button';
 
 export default function Header() {
@@ -27,12 +27,19 @@ export default function Header() {
     >
       <div className="container-luxury mx-auto px-6 md:px-12 lg:px-24 flex items-center justify-between">
         <Link to="/" className="group flex flex-col">
-          <span className="font-display text-2xl md:text-3xl text-cream tracking-wide group-hover:text-gold transition-colors duration-500">
-            Sky<span className="text-gold">Cinema</span>
-          </span>
-          <span className="text-[10px] uppercase tracking-[0.25em] text-cream/40 hidden md:block">
-            Authorized JBL Dealer
-          </span>
+          <div className="flex items-center gap-3">
+            <img
+              src="/images/logo.png"
+              alt="SkyCinema logo"
+              className="h-20 w-auto object-contain"
+            />
+          </div>
+          <Link
+            to="/admin/login"
+            className="text-[10px] uppercase tracking-[0.25em] text-cream/40 hidden md:block transition-colors duration-300 hover:text-gold"
+          >
+            Admin Login
+          </Link>
         </Link>
 
         <nav className="hidden lg:flex items-center gap-10">

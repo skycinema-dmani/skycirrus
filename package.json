@@ -4,17 +4,19 @@
   "private": true,
   "description": "SkyCinema — Premium Home Theatre Experience Studio",
   "scripts": {
-    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
-    "dev:client": "npm run dev --workspace=client",
-    "dev:server": "npm run dev --workspace=server",
-    "build": "npm run build --workspace=client",
-    "start": "npm run start --workspace=server",
-    "db:setup": "npm run db:setup --workspace=server"
+    "dev": "concurrently \"pnpm --filter server dev\" \"pnpm run dev:client\"",
+    "dev:client": "node scripts/wait-for-server.mjs && pnpm --filter client dev",
+    "dev:server": "pnpm --filter server dev",
+    "build": "pnpm --filter client build",
+    "start": "pnpm --filter server start",
+    "db:setup": "pnpm --filter server db:setup"
   },
-  "workspaces": [
-    "client",
-    "server"
-  ],
+  "packageManager": "pnpm@11.11.0",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  },
   "devDependencies": {
     "concurrently": "^9.1.2"
   }

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosHeaders } from 'axios';
 
 const api = axios.create({
   baseURL: '/api',
@@ -6,9 +6,11 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('skycinema_token');
+  const token = typeof window !== 'undefined' ? localStorage.getItem('skycinema_token') : null;
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+    const headers = config.headers ? new AxiosHeaders(config.headers) : new AxiosHeaders();
+    headers.set('Authorization', `Bearer ${token}`);
+    config.headers = headers;
   }
   return config;
 });

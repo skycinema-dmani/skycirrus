@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { useParams } from 'react-router-dom';
 import SEO from '@/components/common/SEO';
 import Button from '@/components/ui/Button';
 import type { Project } from '@/types';
