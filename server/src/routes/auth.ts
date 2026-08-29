@@ -33,7 +33,7 @@ router.post('/login', async (req, res) => {
   }
 
   const payload = { id: user.id, email: user.email, name: user.name, role: user.role };
-  const token = jwt.sign(payload, env.jwtSecret, { expiresIn: env.jwtExpiresIn });
+  const token = jwt.sign(payload, env.jwtSecret, { expiresIn: env.jwtExpiresIn as any });
 
   sendSuccess(res, { token, user: payload });
 });

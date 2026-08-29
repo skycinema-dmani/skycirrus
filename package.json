@@ -8,15 +8,11 @@
     "dev:client": "node scripts/wait-for-server.mjs && pnpm --filter client dev",
     "dev:server": "pnpm --filter server dev",
     "build": "pnpm --filter client build",
+    "lint": "pnpm --filter client lint",
     "start": "pnpm --filter server start",
     "db:setup": "pnpm --filter server db:setup"
   },
   "packageManager": "pnpm@11.11.0",
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild"
-    ]
-  },
   "devDependencies": {
     "concurrently": "^9.1.2"
   }
